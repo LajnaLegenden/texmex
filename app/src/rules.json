@@ -1,0 +1,33 @@
+[
+    {
+        "type": "checkbox",
+        "label": "Format Comments",
+        "value": true
+    },
+    {
+        "type": "checkbox",
+        "label": "NewLines after sentance",
+        "value": true
+    },
+    {
+        "type": "select",
+        "label": "NewLines before section, chapter, subsection, etc.",
+        "options": [
+            "None",
+            "1",
+            "2",
+            "3"
+        ],
+        "value": 0
+    },
+    {
+        "type": "select",
+        "label": "Indentations",
+        "options": [
+            "2 spaces",
+            "4 spaces",
+            "Tabs"
+        ],
+        "value": 2
+    }
+]
