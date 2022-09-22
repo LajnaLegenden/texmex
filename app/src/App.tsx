@@ -1,5 +1,4 @@
 import React, { MutableRefObject, useRef } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CodeEditor from './components/editor';
 import config from './rules.json';
@@ -62,10 +61,10 @@ function App() {
 
   const ruleOnChange = (event: any, id: number) => {
     let newRules = [...rules];
-    if (newRules[id].type == "checkbox") {
+    if (newRules[id].type === "checkbox") {
       newRules[id].value = event.target.checked;
     }
-    if (newRules[id].type == "select") {
+    if (newRules[id].type === "select") {
       newRules[id].value = event.target.selectedIndex;
     }
     setRules(newRules);

@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { model } from "../model";
 import * as mon from 'monaco-editor'
 import Editor, { Monaco, OnChange } from "@monaco-editor/react";
 
 const CodeEditor = ({ onChange, value }: { value: string, onChange: OnChange }) => {
 
-    const editorRef = useRef<mon.editor.IStandaloneCodeEditor>(null);
     const [language, setLanguage] = useState("javascript")
 
     function handleEditorDidMount(editor: mon.editor.IStandaloneCodeEditor, monaco: Monaco) {

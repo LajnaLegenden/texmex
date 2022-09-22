@@ -33,7 +33,7 @@ export class Formatter {
 
     private getSetting(label: string) {
         return this.rules.filter(r =>
-            r.label == label
+            r.label === label
         )[0]
     }
 
