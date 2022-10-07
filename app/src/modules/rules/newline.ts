@@ -6,8 +6,8 @@ export function run(file: string) {
     let newFile = []
     for (let lineIndex in lines) {
         let line = lines[parseInt(lineIndex)]
-        if (line.includes("{") && line.includes("}")) { newFile.push(line); continue }
-        let sentances = line.split(".")
+        if (line.includes("%") && !line.includes("\\")) { newFile.push(line); continue }
+        let sentances = line.split(". ")
         sentances = sentances.map(s => s.trim())
         //dont add empty lines
 

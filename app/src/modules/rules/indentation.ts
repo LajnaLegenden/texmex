@@ -7,6 +7,7 @@ export function run(file: string, delimiter: string) {
     for (let lineIndex in lines) {
         let line = lines[lineIndex]
         // Check if line contains a begin or end statement
+        if (line.includes("%")) continue
         if (line.includes("\\begin") && !line.includes("document"))
             lines[lineIndex] = getDelimiter(level++, delimiter) + line.trimStart()
         else if (line.includes("\\end") && !line.includes("document"))
