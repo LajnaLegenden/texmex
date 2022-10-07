@@ -22,6 +22,7 @@ export class Formatter {
     }
 
     public formatAll(file: string) {
+        const t0 = performance.now();
         this.log("Starting formatting")
         //Comments
         if (this.getSetting("Format Comments").value)
@@ -56,6 +57,8 @@ export class Formatter {
         }
         else
             this.log("Skipping indentaion due to settings")
+        const t1 = performance.now();
+        console.log(`Formatter took ${t1 - t0} milliseconds.`);
         return file
     }
 

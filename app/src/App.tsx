@@ -4,6 +4,7 @@ import CodeEditor from './components/editor';
 import config from './rules.json';
 import SettingsElement from './components/setting';
 import { Formatter } from './modules/formatter';
+
 export interface Rule {
   type: string;
   label: string;
@@ -31,6 +32,9 @@ function App() {
   const [code, setCode] = React.useState<string>("");
   const inputFile = useRef<HTMLInputElement>(null) as MutableRefObject<HTMLInputElement>;
 
+
+
+
   const onButtonClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.value = "";
@@ -55,7 +59,7 @@ function App() {
     }
   }
 
-  const formatCode = () => {
+  const formatCode = async () => {
     setCode(formatTexCode(code, rules));
   }
   const saveToFile = () => {
@@ -107,7 +111,6 @@ function App() {
           )}
 
         </div>
-
         <div className="button-container">
           <div className="button" onClick={formatCode}>
             <p className="answer-choice">Format</p>
