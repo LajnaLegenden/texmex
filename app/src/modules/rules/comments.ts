@@ -1,5 +1,7 @@
 export function run(file: string) {
-    let lines = file.split("\n")
+
+    const lineEnd = file.includes("\r\n") ? "\r\n" : "\n"
+    let lines = file.split(lineEnd)
     for (let lineIndex in lines) {
         let line = lines[lineIndex]
         if (line.includes("%")) {
@@ -39,5 +41,5 @@ export function run(file: string) {
             lines[lineIndex] = line
         }
     }
-    return lines.join("\n")
+    return lines.join(lineEnd)
 }
