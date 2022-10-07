@@ -33,13 +33,14 @@ function App() {
 
   const onButtonClick = () => {
     // `current` points to the mounted file input element
+    inputFile.current.value = "";
     inputFile.current.click();
   };
 
 
   const getFileContent = () => {
     // @ts-ignore: Object is possibly 'null'.
-    var file = inputFile.current.files[0];
+    var file = inputFile.current.files[inputFile.current.files?.length - 1];
     if (file) {
       var reader = new FileReader();
       reader.readAsText(file, "UTF-8");
@@ -56,6 +57,22 @@ function App() {
 
   const formatCode = () => {
     setCode(formatTexCode(code, rules));
+  }
+  const saveToFile = () => {
+    let string = `formatted-${new Date().getTime()}.tex`
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(code));
+    pom.setAttribute('download', string);
+
+    if (document.createEvent) {
+      var event = document.createEvent('MouseEvents');
+      event.initEvent('click', true, true);
+      pom.dispatchEvent(event);
+    }
+    else {
+      pom.click();
+    }
+
   }
 
 
@@ -80,8 +97,8 @@ function App() {
       </div>
       <div className="settings-container">
         {/* loop over rules */}
-
         <div className="settings">
+          <h2>TexMex</h2>
           {rules.map((rule, i) => {
             return (
               <SettingsElement id={i} key={i} rule={rule} onChange={ruleOnChange} />
@@ -95,9 +112,12 @@ function App() {
           <div className="button" onClick={formatCode}>
             <p className="answer-choice">Format</p>
           </div>
+          <div className="button" onClick={saveToFile}>
+            <p className="answer-choice">Save to file</p>
+          </div>
           <div className="button" onClick={onButtonClick}>
             <p className="answer-choice">Open File</p>
-            <input style={{ display: 'none' }} type="file" name="uploadedFile" id="file" onChange={getFileContent} ref={inputFile} />
+            <input style={{ display: 'none' }} type="file" name="uploadedFile" onChange={getFileContent} id="file" ref={inputFile} />
           </div>
         </div>
       </div>

@@ -16,16 +16,15 @@ const SettingsElement = ({ rule, onChange, id }: { id: number, rule: Rule, onCha
         return (
             <div className="selectSetting theSetting" >
                 <Form.Label>{rule.label}</Form.Label>
-                <Form.Select onChange={(e) => onChange(e, id)}>
+                <Form.Select value={rule.value as unknown as string} onChange={(e) => onChange(e, id)}>
                     {rule.options?.map((option, index) => {
                         return (
-                            <option defaultChecked={index === rule.value} key={index}>{option}</option>
+                            <option value={index} key={index}>{option}</option>
                         )
                     }
                     )}
                 </Form.Select>
             </div>
-
         )
     }
 
