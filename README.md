@@ -1,5 +1,6 @@
 # texmex
 A web-based LaTeX formatter / linter
+[DEMO](https://texmex.linusjansson.com/)
 ## Features
 * Formats comments
 * Sorts usepackage alphabeticly
