@@ -64,14 +64,13 @@ describe('Comments formatter', () => {
 })
 
 
-describe('Usepackage formatter', () => {
+describe('Newline formatter', () => {
   describe('Sorts the rules in order', () => {
     it('sorts usepackage correctly', () => {
       const code = readFileSync(__dirname + "/testFiles/usepackage/1a.tex", { flag: "r", encoding: "UTF-8" })
       const result = readFileSync(__dirname + "/testFiles/usepackage/1b.tex", { flag: "r", encoding: "UTF-8" })
       expect(usepackage(code)).toBe(result);
     })
-
     it('does nothing with no imports', () => {
       const code = readFileSync(__dirname + "/testFiles/usepackage/2a.tex", { flag: "r", encoding: "UTF-8" })
       const result = readFileSync(__dirname + "/testFiles/usepackage/2b.tex", { flag: "r", encoding: "UTF-8" })
@@ -79,6 +78,33 @@ describe('Usepackage formatter', () => {
     })
     it('removes spaces from imports', () => {
       const code = readFileSync(__dirname + "/testFiles/usepackage/3a.tex", { flag: "r", encoding: "UTF-8" })
+      const result = readFileSync(__dirname + "/testFiles/usepackage/3b.tex", { flag: "r", encoding: "UTF-8" })
+      expect(usepackage(code)).toBe(result);
+    })
+  })
+})
+
+describe('Usepackage formatter', () => {
+  describe('Sorts the rules in order', () => {
+    it('sorts usepackage correctly', () => {
+      const code = readFileSync(__dirname + "/testFiles/usepackage/1a.tex", { flag: "r", encoding: "UTF-8" })
+      const result = readFileSync(__dirname + "/testFiles/usepackage/1b.tex", { flag: "r", encoding: "UTF-8" })
+      expect(usepackage(code)).toBe(result);
+    })
+    it('does nothing with no imports', () => {
+      const code = readFileSync(__dirname + "/testFiles/usepackage/2a.tex", { flag: "r", encoding: "UTF-8" })
+      const result = readFileSync(__dirname + "/testFiles/usepackage/2b.tex", { flag: "r", encoding: "UTF-8" })
+      expect(usepackage(code)).toBe(result);
+    })
+  })
+  describe('Spaces', () => {
+    it('removes spaces from imports', () => {
+      const code = readFileSync(__dirname + "/testFiles/usepackage/3a.tex", { flag: "r", encoding: "UTF-8" })
+      const result = readFileSync(__dirname + "/testFiles/usepackage/3b.tex", { flag: "r", encoding: "UTF-8" })
+      expect(usepackage(code)).toBe(result);
+    })
+    it('removes spaces all from imports', () => {
+      const code = readFileSync(__dirname + "/testFiles/usepackage/3c.tex", { flag: "r", encoding: "UTF-8" })
       const result = readFileSync(__dirname + "/testFiles/usepackage/3b.tex", { flag: "r", encoding: "UTF-8" })
       expect(usepackage(code)).toBe(result);
     })
