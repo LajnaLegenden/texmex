@@ -8,9 +8,9 @@ export function run(file: string, delimiter: string) {
         let line = lines[lineIndex]
         // Check if line contains a begin or end statement
         if (line.includes("%")) continue
-        if (line.includes("\\begin") && !line.includes("document"))
+        if (shouldGoIn(line))
             lines[lineIndex] = getDelimiter(level++, delimiter) + line.trimStart()
-        else if (line.includes("\\end") && !line.includes("document"))
+        else if (shouldGoOut(line))
             lines[lineIndex] = getDelimiter(--level, delimiter) + line.trimStart()
         else
             lines[lineIndex] = getDelimiter(level, delimiter) + line.trimStart()
@@ -19,6 +19,13 @@ export function run(file: string, delimiter: string) {
     return lines.join(lineEnd)
 
 
+}
+
+function shouldGoIn(line: string) {
+    return line.includes("\\begin") && !line.includes("document")
+}
+function shouldGoOut(line: string) {
+    return line.includes("\\end")
 }
 
 function getDelimiter(level: number, delimiter: string) {

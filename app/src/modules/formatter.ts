@@ -35,8 +35,12 @@ export class Formatter {
         else
             this.log("Skipping usepackage due to settings")
         // New line
-        if (this.getSetting("NewLines after sentance").value)
-            file = newLineSentance(file)
+        if (this.getSetting("NewLines after sentance").value) {
+
+            file = newLineSentance(file, ".")
+            file = newLineSentance(file, "?")
+            file = newLineSentance(file, "!")
+        }
         else
             this.log("Skipping new line before sentance due to settings")
         //New line before section

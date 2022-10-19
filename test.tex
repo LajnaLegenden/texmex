@@ -1,0 +1,129 @@
+\documentclass[fleqn,10pt]{article}
+\usepackage{tabularx}      % in the preamble
+\usepackage{spverbatim}
+\usepackage    {listings}
+\usepackage{graphicx}
+\usepackage    {amsmath}
+\usepackage{apacite}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\usepackage{float}
+%                          Use option lineno for line numbers 
+%Use option lineno for line numbers 
+%                          Use option lineno for line numbers 
+%tjohejUse option lineno for line numbers 
+%                                                                           Use option lineno for line numbers 
+
+\begin{document}
+\title{Analys av Dijkstra's Algoritm}
+\begin{titlepage}
+\begin{center}
+\vspace*{1cm}
+
+\textbf{Analys av Dijkstra's Algoritm}
+
+            
+\vspace{1.5cm}
+
+\textbf{Linus Jansson (Max Dahlgren) }
+
+       \vfill
+
+       \vspace{0.8cm}
+     
+       \includegraphics[width=0.4\textwidth]{university.png}
+            
+       Software Engeneering\\
+       Blekinge Tekniska Högskola\\
+       Sweden\\
+       2022-05-28
+            
+   \end{center}
+\end{titlepage}
+
+
+\flushbottom
+\thispagestyle{empty}
+\section{Inledning}
+I denna rapport kommer Dijkstra's att analyseras och även titta på en implementation av den.
+Främst så kommer tidskomplexitet, minneskomplexitet och olika varianter att undersökas. Olika varianter inkluderar olika val av datastruktuer.
+
+En graf är en datastuktur som inte är linjär. Den består istället av noder och kanter, som kopplar ihop de olika noderna, antingen riktade kanter, som bara går åt ett håll, eller som orikate kanter som gäller åt båda hållen. I en graf så betyder V antalet kanter, och N antalet noder.
+
+Dijkstra's algoritm är en pathfinding algoritm som hittar den snabbaste vägen mellan 2 noder i en graf eller den kortaste vägen till alla andra noder i grafen. Detta kan sedan översättas till ett vägnätverk, eller ett nätverk med routrar i verkligheten. Dijkstra's är en av flera shortest path algoritmer, andra algoritmer är m.f A* och bidirectional search.
+
+Algoritmen fungerar genom att hålla koll på varje nods avstånd till sina grannar. Efter det så väljer algoritmen den nod som är närmst till startnoden som den inte har vait på innan. Därefter kollar den dess grannar, och uppdaterar avståndet till grannarna ifall det är bättre. Så, genom att det förbättrar sitt resultat i omgångar så skalar den bra till större problem. Den gör däremot inget försök till att gå närmare sitt mål, utan jobbar bara i tur och ordning med de noder som är närmst start punkten.
+
+\includegraphics[width=1\textwidth]{untitled.png}
+
+
+
+I denna implementationen så söker vi bara för snabbaste vägen mellan 2 noder, men Dijkstra's kan också användas för att hitta snabbaste vägen mellan en start nod och ALLA andra noder.
+\section{Val av datastruktur}
+
+I vår implementation av Dijkstra's algoritm, så har vi använt en prioritets-kö, samt ett par hash tabeller. Priortietskön används för att veta vilken väg / kant som vi ska undersöka härnäst, och hash tabellerna används för att spara de bästa avstånden, samt för att spara vilken nod som är föregående, så vilken nod den kom ifrån. Vi sparar också noderna i en hash tabell i klassen och hämtar dem via referens senare i koden med "getNode()". Noderna är representerade av en struct med namnet Node. Den innehåller ett id som en string, och en hash tabell som har koll på den nodens kanter. Att använda en hash tabell gör att access tiden blir konstant.
+
+Vi valde en prioritets-kö för att den alltid håller det största elementet först i kön (eller i vårt fall, det minsta först i kön). Det gör att vi inte behöver manuellt hålla reda på vilken som är minst, och slipper söka efter det. Hash tabellerna används för att spara nuvarande minsta avståndet, samt föregående nod. Vi valde en hash tabell eftersom den är enkel att jobba med, har oftast konsant insert tid  och alltid konstant get tid. Noderna sparas också i en hash tabell för att spara tid då vi vill använda funktionen "getNode" ofta. Man skulle också kunna använda pekare, men för enkelhetens skull valde vi att använda färdiga datastruktuer. Tidskomplexiten ökar inte, dock blir algoritmen lite, ytterst lite långsammare.
+\section{Analys}
+\subsection{Delproblem}
+I denna algoritmen har jag identifierat tre stycken del problem
+\begin{enumerate}
+    \item Initialisera variabler
+    \item Hitta kortaste vägen till alla noder
+    \item Skapa en väg och lägga in i en array
+\end{enumerate}
+
+\subsubsection{Initialisera variabler}
+Här skapar vi de variabler som behövs för algoritmen, hash tabeller, och sätter dem till värden som passar, i vårt fall INT\_MAX för avstånden, utom för start noden, som sätts till 0. Föregående noden sätts till en tom sträng.
+\subsubsection{Hitta kortaste vägen till alla noder}
+Det är har algoritmen jobbar mest. På den noden den jobbar med just nu, så uppdaterar vi avståndet till alla noder runt omkring. Efter det ska noden markeras som besökt. Nästa nod som väljs är den noden som är närmst startpunkten, men inte tidigare besökt.
+\subsubsection{Skapa en väg och lägga in i en array}
+Sista steget är att skapa en väg ifrån start noden till slut noden. Då använder vi en array, och lägger in slutnoden först, sedan backar vi till den noden i kom ifrån (som vi sparade innan) och lägger in den. Fortsätt så tills vi har kommit tillbaka till startnoden.
+
+\subsection{Tids Komplexitet}
+Efter vår analys så har jag fått fram att koden har en tidkomplexitet på $ O(E*\log_2{V})$ där V är antal noder och E är antal anslutningar.
+
+Koden ovan körs under initiationen av Dijkstra's algoritm. Den sätter default värdena i hash tabellerna. Detta steg hade gått att skippa ifall man skapar en egen struct med default värden, men i detta fallet hade en hel del kod behövt skrivas om, så denna loopen kommer ta $O(V)$ tid.
+
+\subsubsection{Hitta kortaste vägen}
+Denna delen är majoriteten av Dijkstra's algoritm. Vi har redan lagt till start punken i vår kö, och eftersom den är den ända i kön, så kommer alla startnodens anslutningar bli kollade först. Här delar vi ut lite data ifrån en sträng, sen så kollar vi ifall den vägen vi har just nu är bättre än den vi redan har hittat. Om den är det, lägg tillbaka den i kön, med den nya vägens kostnad. Detta gör att vi inte kollar på vägar som vi inte behöver kolla på. Varje loop i kön kommer ta $\log_2(V)$.
+\subsubsection{Bygga vägen}
+Denna sista biten körs ifall vi har hittat en väg till destinationen. Är kön tom och vi inte har ändrat avståndet ifrån INT\_MAX så har vi inte hittat än bättre väg. Vi använder oss av ett walker element, och går tills vi inte har en föregående element, då har vi hittat start noden. Denna loopen kommer att köras som mest $V+V$ gånger, eftersom en väg kan inte gå igenom fler än $V$ noder, och reverse tar $\frac{V}{2}$ eller $O(V)$.
+\subsubsection{Totalt}
+Så totalt så får denna koden en tidskomplexitet på
+
+Med detta så blir $ O(E*\log_2{V})$
+Efter att ha mätt ut hur många gånger koden loopar, så kan vi se att kön aldrig loopar mer än $v$ gånger. 
+
+Minneskomplexiteten för denna algoritmen blir $O(E+V)$. Platsen för att hålla koll på grafen blir då $O(V+N)$ också. Under körningen av algoritmen så kan kön som mest ha $V$ kanter i sig, och 2 hash tabeller används också för att spara avstånden, samt föregående element. Grafen, som sparar noderna i en hash tabell, kommer också ta $O(E+V)$ då varje nod måste sparas, samt alla anslutningarna.
+ 
+\section{Reflektioner}
+Tidsomfattningen på detta projekt var bra. Att inlämningsdatum var efter tentamen var mycket skönt, eftersom att plugga inför den var också bra förberedelse inför denna uppgiften.
+
+Att studera inför tentamen var till stor hjälp. Vi läste även i boken innan vi började implementationen och sökte igenom online innan.
+
+Jag skrev mycket av koden, men vi jobbade tillsammans på designen av algoritmen. Anledningen till detta är att det är mycket enklare att jobba med en fil, och en kodstil, samt att jag är mer bekväm med c++ och därför sparar det tid. Eftersom vi inte ska skriva så mycket kod, så blir det bara jobbigare om vi båda skriver kod på olika sätt. Vi arbetade med analysen tillsammans och diskuterade och reflekterade på vår algoritm. Båda har jobbat effektivt och ingen har fått göra mer än den andra. Rapporten skrev vi själva baserat på vad vi kommit fram till under vår analys.
+
+Det som var mest tidskrävande var att få rätt på hur man räknar ut kostnaden, samt hur man vänder en prioritets-kö. Min IDE (Clion) visade ett fel, dock går kompilering bra, men fastnade där ett tag. Annars gick det mesta rätt bra. Rapporten tar tid och skriva, men det var förväntat, så inga problem där.
+
+Vi skulle börjat lite tidigare. Kom mycket i vägen, men det gick och lösa ändå. Tycker att vi jobbade bra som ett team. Jag var bortrest i början av projektet men vi lyckades fördela arbetet på ett bra sätt. Implementationen hade varit mindre skökig om den hade använt pekare, då hade vi haft enklare att hitta våra structs, och hade inte behövt en getNode() funktion. 
+\end{document}

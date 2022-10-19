@@ -1,5 +1,5 @@
 
-const packageNameRegex = /\\usepackage(\s?)\{(\S+)\}/;
+const packageNameRegex = /\\usepackage(\s*)\{(\S+)\}(.*)/;
 export function run(file: string) {
 
     const lineEnd = file.includes("\r\n") ? "\r\n" : "\n"
@@ -9,7 +9,11 @@ export function run(file: string) {
         let line = lines[lineIndex]
         if (line.match(packageNameRegex)) {
             let packageName = line.match(packageNameRegex) || ["", "", ""]
-            usePackageIndex.push({ lineIndex, matches: packageName, line, package: packageName[2], hasSpace: packageName[1] !== null })
+            usePackageIndex.push({ lineIndex, matches: packageName, line, package: packageName[2] })
+            //check if there is a space before the package name
+            if (packageName[1]) {
+                usePackageIndex[usePackageIndex.length - 1].line = `\\usepackage{${packageName[2]}}${packageName[3] ? packageName[3] : ""}`
+            }
         }
     }
     let deleteCount = 0;
