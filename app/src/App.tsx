@@ -12,26 +12,34 @@ export interface Rule {
   value: boolean | number;
 }
 
-function formatTexCode(code: string, rules: Rule[]) {
-  let formatter = new Formatter(rules);
-
-  code = formatter.formatAll(code);
-
-  return code;
-
-}
-
-function isFileTex(fileContent: string) {
-  return fileContent.includes("\\documentclass");
-}
 
 
 function App() {
   //use rules from rules.json
   const [rules, setRules] = React.useState<Rule[]>(config as Rule[]);
   const [code, setCode] = React.useState<string>("");
+  const [time, setTime] = React.useState<number>(0);
+  const [nrOfLines, setNrOfLines] = React.useState<number>(0);
   const inputFile = useRef<HTMLInputElement>(null) as MutableRefObject<HTMLInputElement>;
 
+  const formatTexCode = (code: string, rules: Rule[]) => {
+    let formatter = new Formatter(rules);
+    formatter.on("time", (time) => {
+      setTime(time);
+    });
+
+    formatter.on("nrOfLines", (nrOfLines) => {
+      setNrOfLines(nrOfLines)
+    })
+    code = formatter.formatAll(code);
+
+    return code;
+
+  }
+
+  const isFileTex = (fileContent: string) => {
+    return fileContent.includes("\\documentclass");
+  }
 
 
 
@@ -95,34 +103,44 @@ function App() {
     setCode(value as string);
   }
   return (
-    <div className="App">
-      <div className="code">
-        <CodeEditor value={code} onChange={handleEditorChange} />
-      </div>
-      <div className="settings-container">
-        {/* loop over rules */}
-        <div className="settings">
-          <h2>TexMex</h2>
-          {rules.map((rule, i) => {
-            return (
-              <SettingsElement id={i} key={i} rule={rule} onChange={ruleOnChange} />
-            )
-          }
-          )}
+    <div>
 
+
+      <div className="App">
+        <div className="code">
+          <CodeEditor value={code} onChange={handleEditorChange} />
         </div>
-        <div className="button-container">
-          <div className="button" onClick={formatCode}>
-            <p className="answer-choice">Format</p>
+        <div className="settings-container">
+          {/* loop over rules */}
+          <div className="settings">
+            <h2>TexMex</h2>
+            {rules.map((rule, i) => {
+              return (
+                <SettingsElement id={i} key={i} rule={rule} onChange={ruleOnChange} />
+              )
+            }
+            )}
+
           </div>
-          <div className="button" onClick={saveToFile}>
-            <p className="answer-choice">Save to file</p>
-          </div>
-          <div className="button" onClick={onButtonClick}>
-            <p className="answer-choice">Open File</p>
-            <input style={{ display: 'none' }} type="file" name="uploadedFile" onChange={getFileContent} id="file" ref={inputFile} />
+          <div className="button-container">
+            <div className="button" onClick={formatCode}>
+              <p className="answer-choice">Format</p>
+            </div>
+            <div className="button" onClick={saveToFile}>
+              <p className="answer-choice">Save to file</p>
+            </div>
+            <div className="button" onClick={onButtonClick}>
+              <p className="answer-choice">Open File</p>
+              <input style={{ display: 'none' }} type="file" name="uploadedFile" onChange={getFileContent} id="file" ref={inputFile} />
+            </div>
           </div>
         </div>
+      </div>
+      <div className="bar">
+        <p>Version: 0.3.0</p>
+        {time != 0 ? (
+          <p>Processed {nrOfLines} lines in {time.toFixed(2)} ms</p>
+        ) : null}
       </div>
     </div>
   );
