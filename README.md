@@ -1,8 +1,9 @@
-# texmex
-A web-based LaTeX formatter / linter
-[DEMO](https://texmex.linusjansson.com/)
+# Texmex Latex Formatter
 
+![Logo](logo.png)
 ![ScreenShot](img.png)
+## A web-based LaTeX formatter / linter
+[DEMO](https://texmex.linusjansson.com/)
 ## Features
 * Formats comments
 * Sorts usepackage alphabeticly
