@@ -19,6 +19,7 @@
         "label": "NewLines before section, chapter, subsection, etc.",
         "options": [
             "Skip",
+            "0",
             "1",
             "2",
             "3"

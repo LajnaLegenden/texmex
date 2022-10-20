@@ -17,14 +17,17 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "ts-node": "^10.9.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@types/jest": "^27.5.2",
+    "monaco-editor": "^0.34.0",
+    "typescript": "^4.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "react-test": "react-scripts test",
+    "test": "react-scripts test",
+    "test-silent": "CI=true react-scripts test --silent --watch-all=false",
     "eject": "react-scripts eject",
-    "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
   "eslintConfig": {
@@ -44,10 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/jest": "^27.5.2",
-    "monaco-editor": "^0.34.0",
-    "typescript": "^4.8.3"
   }
 }

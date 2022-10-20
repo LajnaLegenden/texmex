@@ -1,4 +1,4 @@
-export function run(file: string, delimiter: string) {
+export function run(file: string, delimiter: string): string {
 
     const lineEnd = file.includes("\r\n") ? "\r\n" : "\n"
     let lines = file.split(lineEnd)

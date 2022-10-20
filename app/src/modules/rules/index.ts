@@ -1,0 +1,5 @@
+export { run as comments } from './comments'
+export { run as usepackage } from './sortUsePackage'
+export { run as newLineSentance } from './newline'
+export { run as newlineBeforeSection } from './newlineBeforeSection'
+export { run as indentation } from './indentation'
