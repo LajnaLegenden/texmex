@@ -23,6 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-silent": "CI=true react-scripts test --silent --watch-all=false",
     "eject": "react-scripts eject",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
