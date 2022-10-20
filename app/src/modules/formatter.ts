@@ -84,9 +84,7 @@ export class Formatter extends EventEmitter {
     }
 
     private getSetting(label: string) {
-        return this.rules.filter(r =>
-            r.label === label
-        )[0]
+        return this.rules.filter(r => r.label === label)[0]
     }
 
 }
