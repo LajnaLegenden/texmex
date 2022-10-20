@@ -138,7 +138,7 @@ function App() {
       </div>
       <div className="bar">
         <p>Version: 0.3.0</p>
-        {time != 0 ? (
+        {time !== 0 ? (
           <p>Processed {nrOfLines} lines in {time.toFixed(2)} ms</p>
         ) : null}
       </div>
